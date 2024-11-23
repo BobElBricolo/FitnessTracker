@@ -34,7 +34,13 @@ class ExerciseDetailPage extends StatelessWidget {
       backgroundColor: ColorsHelper.backgroundColor,
       appBar: AppBar(
         backgroundColor: ColorsHelper.backgroundColor,
-        title: Text(exercise.name, style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: ColorsHelper.textColor),),
+        title: Text(
+          exercise.name,
+          style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w700,
+              color: ColorsHelper.textColor),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -50,7 +56,6 @@ class ExerciseDetailPage extends StatelessWidget {
                   formatOneRepMax(calculateOneRepMaxForExercise(exercise.id)),
             ),
             const SizedBox(height: 32),
-
             GraphWidget(data: exerciseHistory),
             const SizedBox(height: 37),
             DescriptionCard(

@@ -31,6 +31,20 @@ class GraphWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
+
+        // If there is no data, display a message
+        if (data.isEmpty || data.length == 1)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Text(
+              "No enough data to display a graph",
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+              ),
+            ),
+          )
+        else
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Container(
