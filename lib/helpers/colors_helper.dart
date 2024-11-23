@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class ColorsHelper {
   static const primaryColor = Color(0xFFF39200); // Orange
+  static const primaryColorGradient = Color.fromARGB(255, 243, 186, 0); // Yellow
   static const secondaryColor = Color(0xFF3D4857); // Charcoal
   static const accentColor = Color(0xFF76E7CD); // Turquoise
   static const backgroundColor = Color.fromARGB(255, 243, 243, 243); // Chiffon
