@@ -1,3 +1,5 @@
+import 'package:fitness_tracker/helpers/colors_helper.dart';
+import 'package:fitness_tracker/pages/profile/profile.dart';
 import 'package:fitness_tracker/pages/progress/grid/gym_days_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fitness_tracker/pages/details/details.dart';
@@ -12,15 +14,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   // Liste des pages
   final List<Widget> _pages = [
-    const HomePage(),
+    const DetailsPage(),
     const ExerciseListPage(),
     const HomePage(),
     const GymDaysPage(),
-    const DetailsPage(),
+    const ProfilePage(),
   ];
 
   @override
@@ -40,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: false,
         showSelectedLabels: false,
-        selectedItemColor: const Color(0xff1ebdf8),
+        selectedItemColor: ColorsHelper.primaryColor,
         items: [
           const BottomNavigationBarItem(
             icon: Icon(Icons.travel_explore),
@@ -59,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
-                    colors: [Color(0xff92e2ff), Color(0xff1ebdf8)],
+                    colors: [ColorsHelper.primaryColorGradient, ColorsHelper.primaryColor],
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -80,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Home',
+            label: 'Profile',
           ),
         ],
       ),

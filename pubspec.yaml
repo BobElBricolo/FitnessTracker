@@ -68,6 +68,7 @@ flutter:
     - assets/progress/
     - assets/progress/grid/
     - assets/exercises_logo/
+    - assets/gym_level/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
