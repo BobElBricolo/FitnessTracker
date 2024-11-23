@@ -1,4 +1,6 @@
-import 'package:fitness_tracker/models/fitness_program.dart';
+import 'package:fitness_tracker/helpers/creation_helper.dart';
+import 'package:fitness_tracker/helpers/helpers.dart';
+import 'package:fitness_tracker/models/workout.dart';
 import 'package:flutter/material.dart';
 
 class CurrentPrograms extends StatefulWidget {
@@ -9,13 +11,7 @@ class CurrentPrograms extends StatefulWidget {
 }
 
 class _CurrentProgramsState extends State<CurrentPrograms> {
-  ProgramType isActived = fitnessPrograms[0].type;
-
-  void _changeActiveProgram(ProgramType type) {
-    setState(() {
-      isActived = type;
-    });
-  }
+  List<Workout> workouts = getDefaultWorkout();
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +41,10 @@ class _CurrentProgramsState extends State<CurrentPrograms> {
                   ),
               padding: const EdgeInsets.symmetric(horizontal: 30),
               scrollDirection: Axis.horizontal,
-              itemCount: fitnessPrograms.length,
+              itemCount: workouts.length,
               itemBuilder: (context, index) {
                 return ProgramWorkoutCard(
-                    fitnessProgram: fitnessPrograms[index],
-                    isActived: fitnessPrograms[index].type == isActived,
-                    onTap: _changeActiveProgram);
+                    workout: workouts[index]);
               }),
         )
       ],
@@ -59,31 +53,25 @@ class _CurrentProgramsState extends State<CurrentPrograms> {
 }
 
 class ProgramWorkoutCard extends StatelessWidget {
-  final FitnessProgram fitnessProgram;
-  final bool isActived;
-  final Function(ProgramType) onTap;
+  final Workout workout;
 
   const ProgramWorkoutCard(
-      {super.key, required this.fitnessProgram, this.isActived = false, required this.onTap});
+      {super.key, required this.workout});
 
   @override
   Widget build(BuildContext context) {
-    Color textColor = isActived ? Colors.white : Colors.black;
+    Color textColor = Colors.black;
 
-    return GestureDetector(
-      onTap: () {onTap(fitnessProgram.type);},
-      child: Container(
+    return Container(
       height: 100,
       width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           colorFilter: ColorFilter.mode(
-              isActived
-                  ? const Color(0xFF1edbf8).withOpacity(.8)
-                  : Colors.white.withOpacity(.6),
+              Colors.white.withOpacity(.6),
               BlendMode.lighten),
-          image: fitnessProgram.image,
+          image: AssetImage(workout.image),
           fit: BoxFit.cover,
         ),
       ),
@@ -101,14 +89,14 @@ class ProgramWorkoutCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                fitnessProgram.name,
+                workout.name,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Row(
                 children: [
-                  Text(fitnessProgram.cals),
+                  Text(workout.type),
                   const SizedBox(
                     width: 15,
                   ),
@@ -120,12 +108,11 @@ class ProgramWorkoutCard extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(fitnessProgram.duration),
+                  Text(formatMinutesToHours(workout.temps)),
                 ],
               )
             ],
           )),
-    ),
     );
   }
 }

@@ -63,7 +63,7 @@ class ActivityItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/details');
+        //Navigator.pushNamed(context, '/details');
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),

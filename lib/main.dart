@@ -1,5 +1,4 @@
-import 'package:fitness_tracker/pages/details/details.dart';
-import 'package:fitness_tracker/pages/home/home.dart';
+import 'package:fitness_tracker/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,14 +23,10 @@ class MyApp extends StatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.w900,
           ),
-        )
+        ),
       ),
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => const HomePage(),
-        '/details': (context) => const DetailsPage(),
-      },
-      initialRoute: '/',
+      home: const MainScreen(), // Utilisation du MainScreen ici
     );
   }
 }
