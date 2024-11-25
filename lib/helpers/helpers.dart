@@ -29,12 +29,12 @@ String formatNumber(int number) {
 String getMuscleImage(String muscle) {
   const backMuscles = [
     'lats',
-    'middle_back',
+    'middle back',
     'traps',
     'neck',
     'back',
-    'upper_back',
-    'lower_back'
+    'upper back',
+    'lower back'
   ];
   const legMuscles = [
     'quadriceps',
@@ -71,12 +71,12 @@ Map<String, List<String>> getMuscleGroups() {
   return {
     'Back': [
       'lats',
-      'middle_back',
+      'middle back',
       'traps',
       'neck',
       'back',
-      'upper_back',
-      'lower_back'
+      'upper back',
+      'lower back'
     ],
     'Legs': [
       'quadriceps',
@@ -109,8 +109,8 @@ double calculateWeightForReps(double oneRepMax, int reps) {
   return oneRepMax * (37 - reps) / 36;
 }
 
-double calculateOneRepMaxForExercise(String exerciseId) {
-  List<Workout> workouts = getDefaultWorkout();
+Future<double> calculateOneRepMaxForExercise(String exerciseId) async {
+  List<Workout> workouts = await getDefaultWorkout();
   double maxOneRep = 0;
 
   for (Workout workout in workouts) {
@@ -132,8 +132,8 @@ double calculateOneRepMaxForExercise(String exerciseId) {
 }
 
 // Get exercise history for a given exercise within all workouts
-List<Map<String, dynamic>> getExerciseHistory(String exerciseId) {
-  List<Workout> workouts = getDefaultWorkout();
+Future<List<Map<String, dynamic>>> getExerciseHistory(String exerciseId) async {
+  List<Workout> workouts = await getDefaultWorkout();
   List<Map<String, dynamic>> history = [];
 
   for (Workout workout in workouts) {
@@ -158,7 +158,6 @@ String formatOneRepMax(double oneRepMax) {
   return '${formatNumber(oneRepMax.toInt())} $weightType';
 }
 
-
-String getLevel(){
+String getLevel() {
   return 'Beginner';
 }

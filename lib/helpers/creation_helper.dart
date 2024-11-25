@@ -16,8 +16,6 @@ Future<List<Exercise>> loadExercisesFromJson() async {
   return jsonData.map((item) => Exercise.fromJson(item)).toList();
 }
 
-
-
 List<Exercise> getDefaultExercise() {
   return [
     Exercise(
@@ -115,8 +113,13 @@ List<Exercise> getDefaultExercise() {
   ];
 }
 
-Exercise? findExerciseById(String id) {
-  return getDefaultExercise().firstWhere(
+
+Future<Exercise?> findExerciseById(String id) async {
+  // Charger les exercices à partir du JSON
+  final exercises = await loadExercisesFromJson();
+  
+  // Trouver l'exercice correspondant à l'ID
+  return exercises.firstWhere(
     (exercise) => exercise.id == id,
     orElse: () => Exercise(
       category: "strength",
@@ -133,20 +136,28 @@ Exercise? findExerciseById(String id) {
   );
 }
 
-List<Workout> getDefaultWorkout() {
+Future<List<Workout>> getDefaultWorkout() async {
+  // Charger les exercices dynamiquement
+  final benchPress = await findExerciseById("Barbell_Bench_Press_-_Medium_Grip");
+  final shoulderPress = await findExerciseById("Barbell_Shoulder_Press");
+  final deadlift = await findExerciseById("Barbell_Deadlift");
+  final squat = await findExerciseById("Barbell_Full_Squat");
+  final abs = await findExerciseById("Ab_Crunch_Machine");
+
   return [
     Workout(
       name: "Push Day",
       date: DateTime.now().subtract(const Duration(days: 10)),
+      workoutImage: 'assets/Strength.jpg',
       exercises: [
         WorkoutExercise(
-          exercise: findExerciseById("bench_press")!,
+          exercise: benchPress!,
           sets: 4,
           reps: 10,
           weight: 80,
         ),
         WorkoutExercise(
-          exercise: findExerciseById("shoulder_press")!,
+          exercise: shoulderPress!,
           sets: 3,
           reps: 12,
           weight: 20,
@@ -156,9 +167,10 @@ List<Workout> getDefaultWorkout() {
     Workout(
       name: "Pull Day",
       date: DateTime.now().subtract(const Duration(days: 9)),
+      workoutImage: 'assets/Pull-Up.jpg',
       exercises: [
         WorkoutExercise(
-          exercise: findExerciseById("deadlift")!,
+          exercise: deadlift!,
           sets: 4,
           reps: 8,
           weight: 120,
@@ -168,36 +180,47 @@ List<Workout> getDefaultWorkout() {
     Workout(
       name: "Leg Day",
       date: DateTime.now().subtract(const Duration(days: 7)),
+      workoutImage: 'assets/Strength.jpg',
       exercises: [
         WorkoutExercise(
-          exercise: findExerciseById("squat")!,
+          exercise: squat!,
           sets: 4,
           reps: 10,
           weight: 100,
         ),
         WorkoutExercise(
-            exercise: findExerciseById("bench_press")!,
-            sets: 4,
-            reps: 15,
-            weight: 135),
+          exercise: benchPress,
+          sets: 4,
+          reps: 15,
+          weight: 135,
+        ),
         WorkoutExercise(
-          exercise: findExerciseById("deadlift")!,
+          exercise: deadlift,
           sets: 4,
           reps: 8,
           weight: 150,
         ),
-WorkoutExercise(
-            exercise: findExerciseById("bench_press")!,
-            sets: 5,
-            reps: 4,
-            weight: 220),      ],
+        WorkoutExercise(
+          exercise: benchPress,
+          sets: 5,
+          reps: 4,
+          weight: 220,
+        ),
+        WorkoutExercise(
+          exercise: abs!,
+          sets: 5,
+          reps: 5,
+          weight: 60,
+        ),
+      ],
     ),
     Workout(
-      name: "Cardio",
+      name: "Abs",
       date: DateTime.now().subtract(const Duration(days: 4)),
+      workoutImage: 'assets/Cardio.jpg',
       exercises: [
         WorkoutExercise(
-          exercise: findExerciseById("running")!,
+          exercise: abs,
           sets: 1,
           reps: 1,
           weight: 0,

@@ -38,12 +38,12 @@ class ExerciseListPageState extends State<ExerciseListPage> {
     return {
       'Back': [
         'lats',
-        'middle_back',
+        'middle back',
         'traps',
         'neck',
         'back',
-        'upper_back',
-        'lower_back'
+        'upper back',
+        'lower back'
       ],
       'Legs': [
         'quadriceps',

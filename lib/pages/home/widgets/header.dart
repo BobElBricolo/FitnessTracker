@@ -8,46 +8,17 @@ class AppHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,
-        height: 200,
+        height: 100,
         child: Stack(children: [
           CustomPaint(
-            size: const Size(double.infinity, 200),
+            size: const Size(double.infinity, 100),
             painter: _HeaderPainter(),
           ),
-          Positioned(
-              top: 35,
-              left: 17,
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-              )),
-          const Positioned(
-              top: 30,
-              right: 33,
-              child: CircleAvatar(
-                minRadius: 30,
-                maxRadius: 30,
-                foregroundImage: AssetImage('assets/Profile-Picture.jpeg'),
-              )),
-          const Positioned(
-              left: 33,
-              bottom: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          
+      const Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    'Welcome Back!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
                   Text(
                     'Bob ElBricolo',
                     style: TextStyle(
@@ -57,7 +28,7 @@ class AppHeader extends StatelessWidget {
                     ),
                   ),
                 ],
-              ))
+              )
         ]));
   }
 }

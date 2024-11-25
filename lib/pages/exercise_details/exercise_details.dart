@@ -12,8 +12,8 @@ class ExerciseDetailPage extends StatelessWidget {
 
   const ExerciseDetailPage({super.key, required this.exercise});
 
-  List<ExerciseDataPoint> getExerciseHistoryAsPoint(String exerciseId) {
-    final history = getExerciseHistory(exerciseId);
+  Future<List<ExerciseDataPoint>> getExerciseHistoryAsPoint(String exerciseId) async {
+    final history = await getExerciseHistory(exerciseId);
 
     return history.map((entry) {
       return ExerciseDataPoint(
@@ -25,11 +25,14 @@ class ExerciseDetailPage extends StatelessWidget {
     }).toList();
   }
 
+  
+
+  Future<double> getOneRepMax(String exerciseId) async {
+    return await calculateOneRepMaxForExercise(exerciseId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<ExerciseDataPoint> exerciseHistory =
-        getExerciseHistoryAsPoint(exercise.id);
-
     return Scaffold(
       backgroundColor: ColorsHelper.backgroundColor,
       appBar: AppBar(
@@ -37,32 +40,58 @@ class ExerciseDetailPage extends StatelessWidget {
         title: Text(
           exercise.name,
           style: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w700,
-              color: ColorsHelper.textColor),
+            fontSize: 25,
+            fontWeight: FontWeight.w700,
+            color: ColorsHelper.textColor,
+          ),
         ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ExerciseStats(
-              equipment: exercise.equipment,
-              level: exercise.level,
-              category: exercise.category,
-              oneRepMax:
-                  formatOneRepMax(calculateOneRepMaxForExercise(exercise.id)),
-            ),
-            const SizedBox(height: 32),
-            GraphWidget(data: exerciseHistory),
-            const SizedBox(height: 37),
-            DescriptionCard(
-              title: 'Description',
-              instructions: exercise.instructions,
-            )
-          ],
+        child: FutureBuilder<List<ExerciseDataPoint>>(
+          future: getExerciseHistoryAsPoint(exercise.id),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Erreur: ${snapshot.error}'));
+            } 
+
+            final exerciseHistory = snapshot.data!;
+
+            return FutureBuilder<double>(
+              future: getOneRepMax(exercise.id),
+              builder: (context, oneRepMaxSnapshot) {
+                if (oneRepMaxSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (oneRepMaxSnapshot.hasError) {
+                  return Center(child: Text('Erreur: ${oneRepMaxSnapshot.error}'));
+                }
+
+                final oneRepMax = oneRepMaxSnapshot.data ?? 0.0;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ExerciseStats(
+                      equipment: exercise.equipment,
+                      level: exercise.level,
+                      category: exercise.category,
+                      oneRepMax: formatOneRepMax(oneRepMax),
+                    ),
+                    const SizedBox(height: 32),
+                    GraphWidget(data: exerciseHistory),
+                    const SizedBox(height: 37),
+                    DescriptionCard(
+                      title: 'Description',
+                      instructions: exercise.instructions,
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
       ),
     );

@@ -1,7 +1,12 @@
+import 'package:fitness_tracker/helpers/colors_helper.dart';
+import 'package:fitness_tracker/helpers/creation_helper.dart';
+import 'package:fitness_tracker/models/workout.dart';
 import 'package:flutter/material.dart';
 
 class RecentActivities extends StatelessWidget {
-  const RecentActivities({super.key});
+  RecentActivities({super.key});
+
+  final Future<List<Workout>> workouts = getDefaultWorkout();
 
 //List of activities with their details
   static List<ActivityForTile> activities = [
@@ -9,27 +14,27 @@ class RecentActivities extends StatelessWidget {
         image: 'assets/Strength.jpg',
         title: 'Workout',
         duration: '30 min',
-        caloriesBurnt: '55Kcal'),
+        caloriesBurnt: '23 sets'),
     const ActivityForTile(
         image: 'assets/Pull-Up.jpg',
         title: 'Pull-Up',
         duration: '20 min',
-        caloriesBurnt: '35Kcal'),
+        caloriesBurnt: '23 sets'),
     const ActivityForTile(
         image: 'assets/Gym.jpg',
         title: 'Squats',
-        duration: '15 min',
+        duration: '23 sets',
         caloriesBurnt: '25Kcal'),
     const ActivityForTile(
         image: 'assets/Yoga.jpg',
         title: 'Plank',
-        duration: '10 min',
+        duration: '23 sets',
         caloriesBurnt: '15Kcal'),
     const ActivityForTile(
         image: 'assets/Cardio.jpg',
         title: 'Running',
         duration: '45 min',
-        caloriesBurnt: '75Kcal'),
+        caloriesBurnt: '23 sets'),
   ];
 
   @override
@@ -58,63 +63,73 @@ class ActivityItem extends StatelessWidget {
 
   const ActivityItem({super.key, required this.activity});
 
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        //Navigator.pushNamed(context, '/details');
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        height: 50,
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xffe1e1e1)),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
+    return Card(
+      elevation: 4,
+      color: ColorsHelper.cardColor, 
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: InkWell(
+        onTap: () {
+          // Naviguez ou exécutez une action spécifique
+          // Navigator.pushNamed(context, '/details');
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(width: 10),
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xffcff2ff),
-              ),
-              height: 35,
-              width: 35,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage(activity.image),
-                    fit: BoxFit.fill,
+            ListTile(
+              contentPadding: const EdgeInsets.all(16.0),
+              leading: ClipOval(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Image.asset(
+                    activity.image,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
+              title: Text(
+                activity.title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              subtitle: Row(
+                children: [
+                  const Icon(Icons.timer, size: 16, color: Colors.grey),
+                  const SizedBox(width: 5),
+                  Text(
+                    activity.duration,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  const SizedBox(width: 15),
+                  const Icon(Icons.fitness_center,
+                      size: 16, color: Colors.grey),
+                  const SizedBox(width: 5),
+                  Text(
+                    activity.caloriesBurnt,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                size: 24,
+                color: Colors.grey,
+              ),
             ),
-            const SizedBox(width: 20),
-            Text(activity.title,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900)),
-            const Expanded(
-              child: SizedBox(),
-            ),
-            const Icon(Icons.timer, size: 12),
-            const SizedBox(width: 5),
-            Text(activity.duration,
-                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w400)),
-            const SizedBox(width: 12),
-            const Icon(Icons.wb_sunny_outlined, size: 12),
-            const SizedBox(width: 5),
-            Text(activity.caloriesBurnt,
-                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w400)),
-            const SizedBox(width: 20),
           ],
         ),
       ),
     );
   }
 }
+
 
 // Class ativity with details
 class ActivityForTile {
