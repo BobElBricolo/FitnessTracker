@@ -157,3 +157,8 @@ String formatOneRepMax(double oneRepMax) {
   var weightType = 'lbs';
   return '${formatNumber(oneRepMax.toInt())} $weightType';
 }
+
+
+String getLevel(){
+  return 'Beginner';
+}

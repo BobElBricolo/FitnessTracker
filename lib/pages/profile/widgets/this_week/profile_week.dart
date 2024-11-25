@@ -22,20 +22,29 @@ class ProfileWeekCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Title and image
-            const Text(
-              'This Week',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'This Week',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+               SizedBox(width: 8),
+               Icon(
+                Icons.event,
+                size: 24,
+              ),
+            ],
+          ),
             const SizedBox(height: 10),
 
             const WeekDates(),
             const SizedBox(height: 20),
             Image.asset(
-              'assets/progress/file.png',
+              'assets/progress/Canard-muscles.png',
               height: 300,
               width: 300,
             ),

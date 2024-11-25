@@ -56,11 +56,9 @@ class ExerciseListPageState extends State<ExerciseListPage> {
       'Abs': ['abdominals'],
       'Arms': ['triceps', 'biceps', 'forearms'],
       'Chest': ['chest', 'shoulders'],
-      'Cardio': ['cardiovascular_system'],
     };
   }
 
-  // Vérifie uniquement si des filtres (muscle ou équipement) sont actifs
   bool _hasActiveFilters() {
     return _selectedMuscleGroup != null || _selectedEquipment != null;
   }

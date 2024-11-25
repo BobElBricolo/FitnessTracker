@@ -1,3 +1,4 @@
+import 'package:fitness_tracker/helpers/colors_helper.dart';
 import 'package:flutter/material.dart';
 
 class FilterDialog extends StatelessWidget {
@@ -22,6 +23,7 @@ class FilterDialog extends StatelessWidget {
     String? tempSelectedEquipment = selectedEquipment;
 
     return AlertDialog(
+      backgroundColor: ColorsHelper.cardColor,
       title: const Text('Filter Exercises'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -46,6 +48,7 @@ class FilterDialog extends StatelessWidget {
               DropdownMenuItem(value: 'Barbell', child: Text('Barbell')),
               DropdownMenuItem(value: 'Dumbbell', child: Text('Dumbbell')),
               DropdownMenuItem(value: 'Body Only', child: Text('Body Only')),
+              DropdownMenuItem(value: 'Cable', child: Text('Cable')),
               DropdownMenuItem(value: 'Machine', child: Text('Machine')),
             ],
             onChanged: (value) {
@@ -56,11 +59,10 @@ class FilterDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        // Bouton Reset Filters
         TextButton(
           onPressed: () {
             onReset();
-            Navigator.pop(context); // Ferme la boîte de dialogue
+            Navigator.pop(context); 
           },
           child: const Text('Reset Filters', style: TextStyle(color: Colors.red)),
         ),
@@ -68,16 +70,16 @@ class FilterDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('Cancel'),
+          child: const Text('Cancel', style: TextStyle(color: ColorsHelper.cardTextColor)),
         ),
         TextButton(
           onPressed: () {
             onApply(tempSelectedMuscleGroup, tempSelectedEquipment);
             Navigator.pop(context);
           },
-          child: const Text('Apply'),
+          child: const Text('Apply', style: TextStyle(color: ColorsHelper.cardTextColor),
         ),
-      ],
+    )],
     );
   }
 }

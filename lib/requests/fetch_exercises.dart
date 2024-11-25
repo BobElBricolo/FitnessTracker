@@ -28,7 +28,7 @@ class ApiService {
       }
     } catch (e) {
       print("Erreur de connexion : $e, retour des exercices de base.");
-      return getDefaultExercise();
+      return loadExercisesFromJson();
     }
   }
 }

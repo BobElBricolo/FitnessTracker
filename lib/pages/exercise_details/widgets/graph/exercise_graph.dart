@@ -169,7 +169,7 @@ class GraphPainter extends CustomPainter {
 
     // Dessiner l'axe des Y
     canvas.drawLine(
-      Offset(0, 0),
+      const Offset(0, 0),
       Offset(0, size.height),
       axisPaint,
     );

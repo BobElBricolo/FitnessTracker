@@ -1,3 +1,4 @@
+import 'package:fitness_tracker/helpers/colors_helper.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseSearchBar extends StatelessWidget {
@@ -29,7 +30,7 @@ class ExerciseSearchBar extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Colors.grey[200],
+                fillColor: Colors.grey[300],
               ),
             ),
           ),
@@ -40,11 +41,11 @@ class ExerciseSearchBar extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey[200],
+                color: Colors.grey[300],
               ),
               child: Icon(
                 hasActiveFilters ? Icons.filter_alt : Icons.filter_alt_outlined,
-                color: hasActiveFilters ? Colors.blue : Colors.black,
+                color: hasActiveFilters ? ColorsHelper.primaryColor : Colors.black,
               ),
             ),
           ),

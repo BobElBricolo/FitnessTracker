@@ -1,6 +1,22 @@
+import 'dart:convert';
+
 import 'package:fitness_tracker/models/exercise.dart';
 import 'package:fitness_tracker/models/workout.dart';
 import 'package:fitness_tracker/models/workout_exercise.dart';
+import 'package:flutter/services.dart';
+
+Future<List<Exercise>> loadExercisesFromJson() async {
+  // Charger le fichier JSON
+  final String jsonString = await rootBundle.loadString('assets/exo.json');
+
+  // Décoder le fichier en une liste dynamique
+  final List<dynamic> jsonData = jsonDecode(jsonString);
+
+  // Transformer chaque élément en un objet `Exercise`
+  return jsonData.map((item) => Exercise.fromJson(item)).toList();
+}
+
+
 
 List<Exercise> getDefaultExercise() {
   return [

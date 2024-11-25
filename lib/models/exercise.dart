@@ -1,7 +1,7 @@
 class Exercise {
   final String category;
   final String equipment;
-  final String force;
+  final String? force;
   final String id;
   final List<String> images;
   final List<String> instructions;
@@ -14,7 +14,7 @@ class Exercise {
   Exercise({
     required this.category,
     required this.equipment,
-    required this.force,
+    this.force,
     required this.id,
     required this.images,
     required this.instructions,
@@ -26,20 +26,21 @@ class Exercise {
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
-    return Exercise(
-      category: json['category'],
-      equipment: json['equipment'],
-      force: json['force'],
-      id: json['id'],
-      images: List<String>.from(json['images'] ?? []),
-      instructions: List<String>.from(json['instructions'] ?? []),
-      level: json['level'],
-      mechanic: json['mechanic'],
-      name: json['name'],
-      primaryMuscles: List<String>.from(json['primaryMuscles'] ?? []),
-      secondaryMuscles: List<String>.from(json['secondaryMuscles'] ?? []),
-    );
-  }
+  return Exercise(
+    category: json['category'] ?? '', 
+    equipment: json['equipment'] ?? '', 
+    force: json['force'] as String?, 
+    id: json['id'] ?? '', 
+    images: List<String>.from(json['images'] ?? []), 
+    instructions: List<String>.from(json['instructions'] ?? []), 
+    level: json['level'] ?? '', 
+    mechanic: json['mechanic'], 
+    name: json['name'] ?? '', 
+    primaryMuscles: List<String>.from(json['primaryMuscles'] ?? []), 
+    secondaryMuscles: List<String>.from(json['secondaryMuscles'] ?? []), 
+  );
+}
+
 
   Map<String, dynamic> toJson() {
     return {

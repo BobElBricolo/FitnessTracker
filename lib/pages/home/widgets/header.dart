@@ -1,3 +1,4 @@
+import 'package:fitness_tracker/helpers/colors_helper.dart';
 import 'package:flutter/material.dart';
 
 class AppHeader extends StatelessWidget {
@@ -64,7 +65,7 @@ class AppHeader extends StatelessWidget {
 class _HeaderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint backColor = Paint()..color = const Color(0xff18b0e8);
+    Paint backColor = Paint()..color = ColorsHelper.primaryColor;
     Paint circleColor = Paint()..color = Colors.white.withOpacity(0.2);
 
     canvas.drawRect(
