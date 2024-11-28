@@ -25,11 +25,11 @@ class CalenderState extends State<Calendar> {
           color: ColorsHelper.cardColor,
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top:15.0, bottom: 8),
+            Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 8),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -50,10 +50,10 @@ class CalenderState extends State<Calendar> {
             ),
             SizedBox(
               height: 190,
-              child: Padding(padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),  
-               child: GymDaysGrid(
-                startDate: DateTime.now().subtract(const Duration(days: 28)),
-              ),)
+              child: Padding(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+                child: GymDaysGrid(),
+              ),
             ),
           ],
         ),

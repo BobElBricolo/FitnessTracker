@@ -1,6 +1,5 @@
 
 import 'package:fitness_tracker/helpers/colors_helper.dart';
-import 'package:fitness_tracker/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
 // Enum of gym levels
@@ -15,7 +14,7 @@ class ProfileLevelCard extends StatelessWidget {
   ProfileLevelCard({super.key});
 
 
-  final level = getLevel();
+  final level = 'beginner';
 
   final gymLevels = {
     'beginner': {

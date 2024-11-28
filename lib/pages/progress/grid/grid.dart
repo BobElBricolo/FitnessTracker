@@ -4,14 +4,7 @@ import 'package:fitness_tracker/models/workout.dart';
 import 'package:flutter/material.dart';
 
 class GymDaysGrid extends StatefulWidget {
-  final DateTime startDate;
-  final int totalDays;
-
-  const GymDaysGrid({
-    super.key,
-    required this.startDate,
-    this.totalDays = 28,
-  });
+  const GymDaysGrid({super.key});
 
   @override
   GymDaysGridState createState() => GymDaysGridState();
@@ -23,26 +16,38 @@ class GymDaysGridState extends State<GymDaysGrid> {
   @override
   void initState() {
     super.initState();
-    // Récupère la liste de workouts par défaut
     workouts = getDefaultWorkout();
   }
 
   @override
   Widget build(BuildContext context) {
+    final today = DateTime.now();
+    final startDate = today.subtract(const Duration(days: 28));
+
     return FutureBuilder<List<Workout>>(
       future: workouts,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator()); // Affiche un loader pendant le chargement
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Erreur: ${snapshot.error}')); // Affiche un message en cas d'erreur
+          return Center(child: Text('Erreur: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('Aucun workout disponible')); // Affiche un message si la liste est vide
+          return const Center(child: Text('Aucun workout disponible'));
         }
 
         final workoutDays = snapshot.data!
-            .map((workout) => DateTime(workout.date.year, workout.date.month, workout.date.day))
+            .where((workout) =>
+                workout.date.isAfter(startDate) &&
+                workout.date.isBefore(today.add(const Duration(days: 1))))
+            .map((workout) => DateTime(
+                workout.date.year, workout.date.month, workout.date.day))
             .toSet();
+
+        //Transform workoutDays to a list of int of the difference between the start date and the workout date
+        List<int> workoutDaysInt = [];
+        for (var element in workoutDays) {
+          workoutDaysInt.add(element.difference(startDate).inDays);
+        }
 
         return GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -50,12 +55,9 @@ class GymDaysGridState extends State<GymDaysGrid> {
             crossAxisSpacing: 0.1,
             mainAxisSpacing: 0.1,
           ),
-          itemCount: widget.totalDays,
+          itemCount: 28,
           itemBuilder: (context, index) {
-            final day = widget.startDate.add(Duration(days: index));
-            final wentToGym = workoutDays.contains(
-              DateTime(day.year, day.month, day.day),
-            );
+            final wentToGym = workoutDaysInt.contains(index);
             return GymDayCell(
               wentToGym: wentToGym,
             );
@@ -94,7 +96,9 @@ class GymDayCell extends StatelessWidget {
           color: !wentToGym ? ColorsHelper.cardColor : null,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: wentToGym ? ColorsHelper.primaryColor : ColorsHelper.cardBorderColor,
+            color: wentToGym
+                ? ColorsHelper.primaryColor
+                : ColorsHelper.cardBorderColor,
             width: 1,
           ),
         ),

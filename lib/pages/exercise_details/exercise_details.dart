@@ -18,7 +18,7 @@ class ExerciseDetailPage extends StatelessWidget {
     return history.map((entry) {
       return ExerciseDataPoint(
         date: entry['date'] as DateTime,
-        weight: (entry['weight'] as int).toDouble(),
+        weight: (entry['weight'] as double),
         reps: (entry['reps'] as int).toDouble(),
         sets: (entry['sets'] as int).toDouble(),
       );

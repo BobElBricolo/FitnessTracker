@@ -113,16 +113,19 @@ Future<double> calculateOneRepMaxForExercise(String exerciseId) async {
   List<Workout> workouts = await getDefaultWorkout();
   double maxOneRep = 0;
 
-  for (Workout workout in workouts) {
+  var workoutsWithExo =  workouts.where((workout) => workout.exercises.any((workoutExercise) => workoutExercise.exercise.id == exerciseId));
+
+
+  for (Workout workout in workoutsWithExo) {
     for (WorkoutExercise workoutExercise in workout.exercises) {
       if (workoutExercise.exercise.id == exerciseId) {
-        // Utilisation de la formule d’Epley
-        double oneRepMax =
-            workoutExercise.weight * (1 + workoutExercise.reps / 30.0);
-
-        // Garde le maximum trouvé
-        if (oneRepMax > maxOneRep) {
-          maxOneRep = oneRepMax;
+        for (var repWeight in workoutExercise.repWeightList) {
+          double weight = repWeight.item2;
+          int reps = repWeight.item1;
+          double currentOneRepMax = calculateOneRepMax(weight, reps);
+          if (currentOneRepMax > maxOneRep) {
+            maxOneRep = currentOneRepMax;
+          }
         }
       }
     }
@@ -136,15 +139,19 @@ Future<List<Map<String, dynamic>>> getExerciseHistory(String exerciseId) async {
   List<Workout> workouts = await getDefaultWorkout();
   List<Map<String, dynamic>> history = [];
 
-  for (Workout workout in workouts) {
+  var workoutsWithExo =  workouts.where((workout) => workout.exercises.any((workoutExercise) => workoutExercise.exercise.id == exerciseId));
+
+  for (Workout workout in workoutsWithExo) {
     for (WorkoutExercise workoutExercise in workout.exercises) {
       if (workoutExercise.exercise.id == exerciseId) {
-        history.add({
-          'date': workout.date,
-          'reps': workoutExercise.reps,
-          'weight': workoutExercise.weight,
-          'sets': workoutExercise.sets,
-        });
+        for (var repWeight in workoutExercise.repWeightList) {
+          history.add({
+            'date': workout.date,
+            'weight': repWeight.item2,
+            'reps': repWeight.item1,
+            'sets': workoutExercise.repWeightList.length,
+          });
+        }
       }
     }
   }
@@ -152,12 +159,14 @@ Future<List<Map<String, dynamic>>> getExerciseHistory(String exerciseId) async {
   return history;
 }
 
+
+
 // Format one rep max to a string with , every 3 digits (e.g. 1000 -> 1,000) and add 'kg' at the end
 String formatOneRepMax(double oneRepMax) {
   var weightType = 'lbs';
   return '${formatNumber(oneRepMax.toInt())} $weightType';
 }
 
-String getLevel() {
-  return 'Beginner';
-}
+
+
+

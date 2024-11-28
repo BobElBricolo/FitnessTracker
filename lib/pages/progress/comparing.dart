@@ -1,10 +1,11 @@
 import 'package:fitness_tracker/helpers/colors_helper.dart';
-import 'package:fitness_tracker/helpers/helpers.dart';
+import 'package:fitness_tracker/helpers/level_helper.dart';
+import 'package:fitness_tracker/pages/progress/duck.dart';
 import 'package:flutter/material.dart';
 
+/// Widget principal
 class Comparing extends StatelessWidget {
-  Comparing({super.key});
-  final String level = getLevel();
+  const Comparing({super.key});
 
   static const Map<String, Color> levelColors = {
     'Beginner': Colors.green,
@@ -13,80 +14,100 @@ class Comparing extends StatelessWidget {
     'Pro': Colors.red,
   };
 
-  String getBackLevel() => 'Beginner';
-  String getChestLevel() => 'Intermediate';
-  String getLegsLevel() => 'Advanced';
-
-  Color? getColorForLevel(String level) => levelColors[level];
+  Color? getColorForLevel(String? level) => levelColors[level];
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(22),
-      elevation: 5,
-      color: ColorsHelper.cardColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Row(
+    return FutureBuilder<Map<String, String?>>(
+      future: _fetchLevels(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Error loading levels'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No levels found'));
+        }
+
+        final levels = snapshot.data!;
+        final chestColor = getColorForLevel(levels['chestLevel']);
+        final backColor = getColorForLevel(levels['backLevel']);
+        final legColor = getColorForLevel(levels['legsLevel']);
+
+        return Card(
+          margin: const EdgeInsets.only(bottom: 22, left: 16, right: 16),
+          elevation: 5,
+          color: ColorsHelper.cardColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Strength Progress',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(
+                      Icons.bar_chart_outlined,
+                      size: 24,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
                 Text(
-                  'Strength Progress',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  levels['mainLevel'] ?? 'Unknown',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w300),
                 ),
-                SizedBox(width: 8),
-                Icon(
-                  Icons.bar_chart_outlined,
-                  size: 24,
+                const SizedBox(height: 15),
+                Duck(
+                  duckColor: ColorsHelper.backgroundColor,
+                  backColor: backColor,
+                  bicepsColor: backColor,
+                  forearmsColor: backColor,
+                  chestColor: chestColor,
+                  shouldersColor: chestColor,
+                  tricepsColor: chestColor,
+                  glutesColor: legColor,
+                  quadsColor: legColor,
+                  harmstringColor: legColor,
+                  calvesColor: legColor,
                 ),
+                const SizedBox(height: 20),
+                const LevelLegend(),
+                const SizedBox(height: 10),
               ],
             ),
-            Text(
-              level,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
-            ),
-            const SizedBox(height: 20),
-            Stack(
-              children: [
-                for (var layer in _getProgressLayers())
-                  Image.asset(
-                    layer['asset'],
-                    height: 300,
-                    width: 300,
-                    color: layer['color'],
-                  ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            const LevelLegend(),
-            const SizedBox(height: 10),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  List<Map<String, dynamic>> _getProgressLayers() {
-    return [
-      {'asset': 'assets/progress/Canard-muscles.png', 'color': ColorsHelper.backgroundColor},
-      {'asset': 'assets/progress/canard-muscles-contour.png', 'color': null},
-      {'asset': 'assets/progress/canard-back.png', 'color': getColorForLevel(getBackLevel())},
-      {'asset': 'assets/progress/canard-chest.png', 'color': getColorForLevel(getChestLevel())},
-      {'asset': 'assets/progress/canard-quads.png', 'color': getColorForLevel(getLegsLevel())},
-      {'asset': 'assets/progress/canard-harmstring.png', 'color': getColorForLevel(getLegsLevel())},
-      {'asset': 'assets/progress/canard-calves.png', 'color': getColorForLevel(getLegsLevel())},
-      {'asset': 'assets/progress/canard-abs.png', 'color': getColorForLevel(getBackLevel())},
-    ];
+  Future<Map<String, String?>> _fetchLevels() async {
+    final fitnessCalculator = FitnessLevelCalculator();
+    final mainLevel = await fitnessCalculator.getUserMainLevel();
+    final backLevel = await fitnessCalculator.getBackLevel();
+    final chestLevel = await fitnessCalculator.getChestLevel();
+    final legsLevel = await fitnessCalculator.getLegsLevel();
+
+    return {
+      'mainLevel': mainLevel?.name,
+      'backLevel': backLevel?.name,
+      'chestLevel': chestLevel?.name,
+      'legsLevel': legsLevel?.name,
+    };
   }
 }
 

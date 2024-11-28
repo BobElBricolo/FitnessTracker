@@ -38,6 +38,7 @@ dependencies:
   http: ^1.2.2
   rename_app: ^1.6.1
   flutter_svg: ^2.0.15
+  syncfusion_flutter_charts: ^27.2.4
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -120,8 +121,8 @@ flutter_icons:
 
 
 flutter_native_splash:
-  color: "#000000" # Fond noir
-  image: assets\LoadPage.png # Chemin vers ton logo
+  color: "#000000"
+  image: assets\LoadPage.png 
   android: true
   ios: true
   web: false

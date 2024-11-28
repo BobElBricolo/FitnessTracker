@@ -4,21 +4,21 @@ class Workout {
   final String name;
   final DateTime date;
   final List<WorkoutExercise> exercises;
+  final int time;
+  final bool isPreset;
   String? workoutImage;
+
 
   Workout({
     required this.name,
     required this.date,
     required this.exercises,
+    required this.time,
     this.workoutImage,
+    this.isPreset =false,
   });
 
-  int get temps {
-    const int timePerSet = 7;
-    int totalSets = exercises.fold(0, (sum, exercise) => sum + exercise.sets);
-    return totalSets * timePerSet;
-  }
-
+  
 // Return the image associated with the workout based on the most worked muscle
   String get image {
     if (workoutImage != null) {
@@ -83,23 +83,5 @@ class Workout {
     }
 
     return 'assets/Gym.jpg';
-  }
-
-  factory Workout.fromJson(Map<String, dynamic> json) {
-    return Workout(
-      name: json['name'],
-      date: DateTime.parse(json['date']),
-      exercises: (json['exercises'] as List)
-          .map((e) => WorkoutExercise.fromJson(e))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'date': date.toIso8601String(),
-      'exercises': exercises.map((e) => e.toJson()).toList(),
-    };
   }
 }

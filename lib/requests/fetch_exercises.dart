@@ -24,7 +24,7 @@ class ApiService {
             .toList();
       } else {
         print("Erreur : ${response.statusCode}, retour des exercices de base.");
-        return getDefaultExercise();
+        return loadExercisesFromJson();
       }
     } catch (e) {
       print("Erreur de connexion : $e, retour des exercices de base.");

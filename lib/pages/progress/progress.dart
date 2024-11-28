@@ -22,10 +22,10 @@ class Progress extends StatelessWidget {
         centerTitle: true,
         backgroundColor: ColorsHelper.backgroundColor,
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
-            const Calendar(),
+            Calendar(),
             Comparing(),
           ],
         ),
