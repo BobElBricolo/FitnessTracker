@@ -6,8 +6,9 @@ import 'package:fitness_tracker/models/exercise.dart';
 
 class ExerciseCardWithDetails extends StatelessWidget {
   final Exercise exercise;
+  final bool isSelectingExercises;
 
-  const ExerciseCardWithDetails({super.key, required this.exercise});
+  const ExerciseCardWithDetails({super.key, required this.exercise, required this.isSelectingExercises});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +21,16 @@ class ExerciseCardWithDetails extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ExerciseDetailPage(exercise: exercise),
-            ),
-          );
+          if (isSelectingExercises) {
+            Navigator.pop(context, exercise); 
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ExerciseDetailPage(exercise: exercise),
+              ),
+            );
+          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

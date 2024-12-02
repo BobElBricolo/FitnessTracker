@@ -25,13 +25,13 @@ class WeekHelper {
       for (final exercise in workout.exercises) {
         for (final muscle in exercise.exercise.primaryMuscles) {
           final workload = exercise.repWeightList
-              .fold<int>(0, (sum, tuple) => sum + (tuple.item1));
+              .fold<int>(0, (sum, tuple) => sum + (tuple.set));
           _addToMuscleGroup(muscleWorkload, muscle, workload);
         }
 
         for (final muscle in exercise.exercise.secondaryMuscles) {
           final workload = exercise.repWeightList.fold<int>(
-              0, (sum, tuple) => sum + ((tuple.item1) * 0.5).toInt());
+              0, (sum, tuple) => sum + ((tuple.set) * 0.5).toInt());
           _addToMuscleGroup(muscleWorkload, muscle, workload);
         }
       }

@@ -166,7 +166,7 @@ class WorkoutExerciseCard extends StatelessWidget {
               itemBuilder: (context, index) {
                 final set = workoutExercise.repWeightList[index];
                 return Text(
-                  'Set ${index + 1}: ${set.item1} reps @ ${set.item2} lbs',
+                  'Set ${index + 1}: ${set.set} reps @ ${set.weight} lbs',
                   style: const TextStyle(fontSize: 14),
                 );
               },

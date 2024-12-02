@@ -120,8 +120,8 @@ Future<double> calculateOneRepMaxForExercise(String exerciseId) async {
     for (WorkoutExercise workoutExercise in workout.exercises) {
       if (workoutExercise.exercise.id == exerciseId) {
         for (var repWeight in workoutExercise.repWeightList) {
-          double weight = repWeight.item2;
-          int reps = repWeight.item1;
+          double weight = repWeight.weight;
+          int reps = repWeight.set;
           double currentOneRepMax = calculateOneRepMax(weight, reps);
           if (currentOneRepMax > maxOneRep) {
             maxOneRep = currentOneRepMax;
@@ -147,8 +147,8 @@ Future<List<Map<String, dynamic>>> getExerciseHistory(String exerciseId) async {
         for (var repWeight in workoutExercise.repWeightList) {
           history.add({
             'date': workout.date,
-            'weight': repWeight.item2,
-            'reps': repWeight.item1,
+            'weight': repWeight.weight,
+            'reps': repWeight.set,
             'sets': workoutExercise.repWeightList.length,
           });
         }

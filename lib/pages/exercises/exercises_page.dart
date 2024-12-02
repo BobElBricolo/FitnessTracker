@@ -8,7 +8,9 @@ import 'package:fitness_tracker/requests/fetch_exercises.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseListPage extends StatefulWidget {
-  const ExerciseListPage({super.key});
+  final bool isSelectingExercises;
+
+  const ExerciseListPage({super.key, required this.isSelectingExercises});
 
   @override
   ExerciseListPageState createState() => ExerciseListPageState();
@@ -97,10 +99,26 @@ class ExerciseListPageState extends State<ExerciseListPage> {
     return Scaffold(
       backgroundColor: ColorsHelper.backgroundColor,
       appBar: AppBar(
-        backgroundColor: ColorsHelper.backgroundColor,
-        title: const Text("Exercises", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: ColorsHelper.textColor),),
-        centerTitle: true,
-      ),
+  backgroundColor: ColorsHelper.backgroundColor,
+  title: const Text(
+    "Exercises",
+    style: TextStyle(
+      fontSize: 25,
+      fontWeight: FontWeight.w700,
+      color: ColorsHelper.textColor,
+    ),
+  ),
+  centerTitle: true,
+  leading: widget.isSelectingExercises 
+      ? IconButton(
+          icon: const Icon(Icons.arrow_back, color: ColorsHelper.textColor),
+          onPressed: () {
+            Navigator.pop(context); // Retire l'écran actuel de la pile
+          },
+        )
+      : null, // Pas de bouton si isSelection est false
+),
+
       body: Column(
         children: [
           ExerciseSearchBar(
@@ -140,7 +158,7 @@ class ExerciseListPageState extends State<ExerciseListPage> {
                           ),
                         );
                       },
-                      child: ExerciseCardWithDetails(exercise: exercise),
+                      child: ExerciseCardWithDetails(exercise: exercise, isSelectingExercises: widget.isSelectingExercises),
                     );
                   },
                 );

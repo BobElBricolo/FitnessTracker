@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   // Liste des pages
   final List<Widget> _pages = [
     const DetailsPage(),
-    const ExerciseListPage(),
+    const ExerciseListPage(isSelectingExercises: false,),
     const HomePage(),
     const Progress(),
     const ProfilePage(),

@@ -107,7 +107,7 @@ Future<List<Workout>> getDefaultWorkout({isNew = false}) async {
       exercises: [
         WorkoutExercise(
           exercise: benchPress!,
-          repWeightList: [Tuple(4, 80)], // 4 sets de 80 kg
+          repWeightList: [Tuple(20, 80)], // 4 sets de 80 kg
         ),
         WorkoutExercise(
           exercise: shoulderPress!,
@@ -124,7 +124,7 @@ Future<List<Workout>> getDefaultWorkout({isNew = false}) async {
       exercises: [
         WorkoutExercise(
           exercise: deadlift!,
-          repWeightList: [Tuple(4, 120)], // 4 sets de 120 kg
+          repWeightList: [Tuple(1, 120)], // 4 sets de 120 kg
         ),
       ],
     ),
@@ -152,7 +152,7 @@ Future<List<Workout>> getDefaultWorkout({isNew = false}) async {
       exercises: [
         WorkoutExercise(
           exercise: deadlift,
-          repWeightList: [Tuple(4, 120)], // 4 sets de 120 kg
+          repWeightList: [Tuple(1, 120)], // 4 sets de 120 kg
         ),
       ],
     ),
@@ -172,7 +172,7 @@ Future<List<Workout>> getDefaultWorkout({isNew = false}) async {
         ),
         WorkoutExercise(
           exercise: deadlift,
-          repWeightList: [Tuple(4, 225)], // 4 sets de 150 kg
+          repWeightList: [Tuple(1, 225)], // 4 sets de 150 kg
         ),
         WorkoutExercise(
           exercise: benchPress,
